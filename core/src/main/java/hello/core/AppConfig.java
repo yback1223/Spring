@@ -9,6 +9,8 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 //AppConfig는 애플리케이션의 실제 동작에 필요한 구현 객체를 생성한다.
 //public class AppConfig {
@@ -22,22 +24,30 @@ import hello.core.order.OrderServiceImpl;
 //     }
 //}
 
-
 //AppConfig를 보면 역할과 구현 클래스가 한눈에 들어오게 바뀐 것을 확인할 수 있다.
+@Configuration
 public class AppConfig {
+
+     @Bean
      public MemberService memberService() {
+          System.out.println("call AppConfig.memberService");
           return new MemberServiceImpl(memberRepository());
      }
 
-     private MemberRepository memberRepository() {
+     @Bean
+     public MemberRepository memberRepository() {
+          System.out.println("call AppConfig.memberRepository");
           return new MemoryMemberRepository(); //MemoryMemberRepository를 다른 구현체로 변경할 때 한 부분만 변경하면 된다.
      }
 
+     @Bean
      public OrderService orderService() {
+          System.out.println("call AppConfig.orderService");
           return new OrderServiceImpl(memberRepository(), discountPolicy());
      }
 
-     private DiscountPolicy discountPolicy() {
+     @Bean
+     public DiscountPolicy discountPolicy() {
 //          return new FixDiscountPolicy();
           return new RateDiscountPolicy();
           //할인 정책을 변경하기 위해서는 AppConfig에서만 코드를 변경하면 된다.

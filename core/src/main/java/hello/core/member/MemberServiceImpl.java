@@ -29,6 +29,11 @@ public class MemberServiceImpl implements MemberService { //추상화에 의존
      public Member findMember(Long memberId) {
           return memberRepository.findById(memberId);
      }
+
+     //테스트 용도
+     public MemberRepository getMemberRepository() {
+          return memberRepository;
+     }
 }
 
 //추상화와 구체화 모두에 의존하고 있다. DIP 위반
