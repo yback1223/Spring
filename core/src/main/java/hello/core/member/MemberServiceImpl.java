@@ -1,5 +1,9 @@
 package hello.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component //이거 하나만 붙여주고 빈 등록 안해도 된다.(자동)
 public class MemberServiceImpl implements MemberService { //추상화에 의존
 
 //     private final MemberRepository memberRepository = new MemoryMemberRepository(); //구체화에 의존, 배우가 상대 배우 캐스팅하는 격
@@ -9,6 +13,9 @@ public class MemberServiceImpl implements MemberService { //추상화에 의존
 
      private final MemberRepository memberRepository;
 
+     //ComponentScan으로 인해 MemberServiceImpl가 스프링 빈으로 등록이 되기 때문에, 다음의 구문을 의존관계 주입시킬 방법이 없다.
+     //그래서 자동 의존 관계 주입이 필요하다. 마치 ac.getBean(MemberRepository.class)와 같다.
+     @Autowired //Autowired를 붙여주면, 자동으로 MemberRepository의 타입에 맞는 것을 찾아와서 주입해준다.
      public MemberServiceImpl(MemberRepository memberRepository) {
           //MemberRepository에 뭐가 들어갈지를 생성자를 통해서 결정한다.
           this.memberRepository = memberRepository;

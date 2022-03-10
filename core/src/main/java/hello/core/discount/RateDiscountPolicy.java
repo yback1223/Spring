@@ -2,7 +2,9 @@ package hello.core.discount;
 
 import hello.core.member.Grade;
 import hello.core.member.Member;
+import org.springframework.stereotype.Component;
 
+@Component //이거 하나만 붙여주고 빈 등록 안해도 된다.
 public class RateDiscountPolicy implements DiscountPolicy {
 
      private int discountPercent = 10;

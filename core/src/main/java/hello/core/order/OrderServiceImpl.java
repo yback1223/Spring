@@ -5,7 +5,10 @@ import hello.core.discount.FixDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component //이거 하나만 붙여주고 빈 등록 안해도 된다.(자동)
 public class OrderServiceImpl implements OrderService {
 
 //     memberRepository에서 회원 찾아야 하니까 MemoryMemberRepository
@@ -20,11 +23,31 @@ public class OrderServiceImpl implements OrderService {
      private final MemberRepository memberRepository;
      private final DiscountPolicy discountPolicy;
 
+     //필드 주입의 경우 필드 변수에 @Autowired를 붙이면된다. 권장하지 않는다.
+//     @Autowired private MemberRepository memberRepository;
+//     @Autowired private DiscountPolicy discountPolicy;
+
+     //생성자
+     @Autowired //만약 생성자가 하나만 있다면 @Autowired를 생략해도 된다.
      public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+          System.out.println("OrderServiceImpl");
           //OrderServiceImpl을 오직 추상화에만 의존하게 하여 DIP를 지키고 생성자를 통해서 객체 주입을 시켜주는 방법을 사용한다.
           this.memberRepository = memberRepository;
           this.discountPolicy = discountPolicy;
      }
+
+     //수정자
+//     @Autowired
+//     public void setMemberRepository(MemberRepository memberRepository) {
+//          System.out.println("memberRepository = " + memberRepository);
+//          this.memberRepository = memberRepository;
+//     }
+//
+//     @Autowired
+//     public void setDiscountPolicy(DiscountPolicy discountPolicy) {
+//          System.out.println("discountPolicy = " + discountPolicy);
+//          this.discountPolicy = discountPolicy;
+//     }
 
      @Override
      public Order createOrder(Long memberId, String itemName, int itemPrice) {
